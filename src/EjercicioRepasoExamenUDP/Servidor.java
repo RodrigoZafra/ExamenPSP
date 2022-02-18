@@ -29,18 +29,26 @@ public class Servidor {
                 puertoCliente = paqueteCliente.getPort();
 
                 buffer = new byte[1024];
-                longitud = String.valueOf(palabra.length());
+                longitud = "Hola cliente" + String.valueOf(palabra.length());
                 buffer = longitud.getBytes();
                 paqueteServer = new DatagramPacket(buffer, buffer.length, address, puertoCliente);
                 sk.send(paqueteServer);
 
-                for (int i = 0; i < palabra.length(); i++) {
-                    paqueteCliente = new DatagramPacket(buffer, buffer.length);
-                    sk.receive(paqueteCliente);
-                    mensaje = new String(paqueteCliente.getData());
+                paqueteCliente = new DatagramPacket(buffer, buffer.length);
+                sk.receive(paqueteCliente);
+                mensaje = new String(paqueteCliente.getData());
+
+                for (int i = 0; i < palabra.length() && ; i++) {
+
                     if (!mensaje.equalsIgnoreCase(palabra)) {
                         buffer = new byte[1024];
                         longitud = String.valueOf(palabra.charAt(i));
+                        buffer = longitud.getBytes();
+                        paqueteServer = new DatagramPacket(buffer, buffer.length, address, puertoCliente);
+                        sk.send(paqueteServer);
+                    } else {
+                        buffer = new byte[1024];
+                        longitud = "Has acertado";
                         buffer = longitud.getBytes();
                         paqueteServer = new DatagramPacket(buffer, buffer.length, address, puertoCliente);
                         sk.send(paqueteServer);
