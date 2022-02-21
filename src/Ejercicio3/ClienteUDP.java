@@ -12,6 +12,7 @@ public class ClienteUDP {
         DatagramSocket ds = null;
         DatagramPacket peticion = null;
         String mensaje = "";
+        InetAddress dir_server = null;
         Scanner sc = new Scanner(System.in);
 
         try {

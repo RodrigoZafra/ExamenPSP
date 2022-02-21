@@ -21,6 +21,7 @@ public class Servidor {
         try {
             DatagramSocket sk = new DatagramSocket(PORT);
             while (true) {
+                //Primero el servidor recibe un mensaje vacio del cliente para coger su address y su puerto
                 paqueteCliente = new DatagramPacket(buffer, buffer.length);
                 sk.receive(paqueteCliente);
                 mensaje = new String(paqueteCliente.getData());
@@ -29,31 +30,37 @@ public class Servidor {
                 puertoCliente = paqueteCliente.getPort();
 
                 buffer = new byte[1024];
-                longitud = "Hola cliente" + String.valueOf(palabra.length());
+                longitud = "Hola cliente - " + String.valueOf(palabra.length());
                 buffer = longitud.getBytes();
                 paqueteServer = new DatagramPacket(buffer, buffer.length, address, puertoCliente);
                 sk.send(paqueteServer);
 
-                paqueteCliente = new DatagramPacket(buffer, buffer.length);
-                sk.receive(paqueteCliente);
-                mensaje = new String(paqueteCliente.getData());
-
-                for (int i = 0; i < palabra.length() && ; i++) {
-
+                for (int i = 0; i < palabra.length(); i++) {
+                    //Recibimos el mensaje del cliente
+                    paqueteCliente = new DatagramPacket(buffer, buffer.length);
+                    sk.receive(paqueteCliente);
+                    mensaje = new String(paqueteCliente.getData());
                     if (!mensaje.equalsIgnoreCase(palabra)) {
                         buffer = new byte[1024];
-                        longitud = String.valueOf(palabra.charAt(i));
+                        longitud = "La respueta no es correcta, la siguiente letra es: " + String.valueOf(palabra.charAt(i));
                         buffer = longitud.getBytes();
                         paqueteServer = new DatagramPacket(buffer, buffer.length, address, puertoCliente);
                         sk.send(paqueteServer);
-                    } else {
+                    } else if (mensaje.equalsIgnoreCase(palabra)) {
                         buffer = new byte[1024];
                         longitud = "Has acertado";
                         buffer = longitud.getBytes();
                         paqueteServer = new DatagramPacket(buffer, buffer.length, address, puertoCliente);
                         sk.send(paqueteServer);
+                    } else if(){
+                        buffer = new byte[1024];
+                        longitud = "Has fallado";
+                        buffer = longitud.getBytes();
+                        paqueteServer = new DatagramPacket(buffer, buffer.length, address, puertoCliente);
+                        sk.send(paqueteServer);
                     }
                 }
+
             }
         } catch (SocketException e) {
             e.printStackTrace();
