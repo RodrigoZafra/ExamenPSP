@@ -51,6 +51,8 @@ public class Cliente {
                 buffer = new byte[1024];
                 paqueteServer = new DatagramPacket(buffer, buffer.length);
                 sk.receive(paqueteServer);
+                mensajeServer = new String(paqueteServer.getData());
+                if()
             }
 
 

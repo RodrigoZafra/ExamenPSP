@@ -48,13 +48,13 @@ public class Servidor {
                         sk.send(paqueteServer);
                     } else if (mensaje.equalsIgnoreCase(palabra)) {
                         buffer = new byte[1024];
-                        longitud = "Has acertado";
+                        longitud = "Ganaste";
                         buffer = longitud.getBytes();
                         paqueteServer = new DatagramPacket(buffer, buffer.length, address, puertoCliente);
                         sk.send(paqueteServer);
-                    } else if(){
+                    } else if () {
                         buffer = new byte[1024];
-                        longitud = "Has fallado";
+                        longitud = "Perdiste";
                         buffer = longitud.getBytes();
                         paqueteServer = new DatagramPacket(buffer, buffer.length, address, puertoCliente);
                         sk.send(paqueteServer);
