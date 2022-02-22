@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-public class Cliente {
+public class ClienteTCP {
     static final String HOST = "127.0.0.1";// donde se encuentra el servidor
     static final int PORT = 5000; // el puerto donde se ha conectado el servidor
 
@@ -15,6 +15,7 @@ public class Cliente {
 
         Scanner teclado = new Scanner(System.in);
         String adivinarPalabra = "";
+        String cadena = "";
 
         // para flujo de mensajes, es decir, podamos intercambiar mensajes
         DataInputStream in;

@@ -7,36 +7,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Servidor {
-    static final int PORT = 4000;
+    static final int PUERTO = 5000;
 
     public static void main(String[] args) {
-        String palabra = "Perro";
-        DataInputStream in = null;
-        DataOutputStream out = null;
-
+        // Flujo de mensajes
         ServerSocket servidor = null;
-        Socket sk = null;
-
+        Socket sc = null;
+        int contadorCliente = 1;
         try {
-            System.out.println("Iniciando el servidor");
-            servidor = new ServerSocket(PORT);
+            System.out.println("Inicializado el servidor, esperando al cliente");
+            servidor = new ServerSocket(PUERTO);
 
             while (true) {
-                sk = servidor.accept();
-                System.out.println("Comunicacion establecida");
-
-                in = new DataInputStream(sk.getInputStream());
-                out = new DataOutputStream(sk.getOutputStream());
-
-                out.writeUTF("Hola cliente" + palabra.length());
-
-                for (int i = 0; i < palabra.length(); i++) {
-                    if (!in.readUTF().equals(palabra)) {
-                        out.writeUTF(String.valueOf(palabra.charAt(i)));
-                    } else {
-                        System.out.println("Has acertado");
-                    }
-                }
+                sc = servidor.accept();// aceptando conexion del cliente
+                new AtenderCliente(sc, contadorCliente).start();
+                contadorCliente++;
             }
         } catch (IOException e) {
             e.printStackTrace();

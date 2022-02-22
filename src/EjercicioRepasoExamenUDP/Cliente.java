@@ -29,12 +29,12 @@ public class Cliente {
             buffer = mensaje.getBytes();
             paqueteCliente = new DatagramPacket(buffer, buffer.length, dir_server, PORT);
             sk.send(paqueteCliente);
-
+            buffer = new byte[1024];
             //Recibimos el mensaje del servidor
             paqueteServer = new DatagramPacket(buffer, buffer.length);
             sk.receive(paqueteServer);
             mensajeServer = new String(paqueteServer.getData());
-            System.out.println("Mensaje del server: " + mensajeServer);
+            System.out.println("Mensaje del server: " + mensajeServer.trim());
             String[] array = mensajeServer.split("-");
             longitudPalabra = array[1].trim();
 
@@ -46,16 +46,21 @@ public class Cliente {
                 buffer = mensaje.getBytes();
                 paqueteCliente = new DatagramPacket(buffer, buffer.length, dir_server, PORT);
                 sk.send(paqueteCliente);
+                System.out.println("CLiente envia:" + mensaje);
 
                 //Recibimos el mensaje del servidor para saber si hemos acertado
                 buffer = new byte[1024];
                 paqueteServer = new DatagramPacket(buffer, buffer.length);
                 sk.receive(paqueteServer);
                 mensajeServer = new String(paqueteServer.getData());
-                if()
+                System.out.println(mensajeServer.trim());
+                if (mensajeServer.equalsIgnoreCase("Ganaste")) {
+                    i = intentos;
+                    System.out.println(mensajeServer.trim());
+                } else if (mensajeServer.equalsIgnoreCase("Perdiste")) {
+                    System.out.println(mensajeServer.trim());
+                }
             }
-
-
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (UnknownHostException e) {
